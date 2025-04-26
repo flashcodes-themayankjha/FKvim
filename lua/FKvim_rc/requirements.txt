@@ -1,0 +1,8 @@
+npm install -g prettier eslint_d
+pip install black flake8
+brew install google-java-format # or use sdkman / manual download
+brew install ktlint # or use sdkman
+
+
+chmod +x setup-dev-tools.sh && ./setup-dev-tools.sh
+
