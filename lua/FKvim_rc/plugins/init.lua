@@ -31,6 +31,7 @@ local function safe_require(module)
   return mod
 end
 
+
 -- Plugins
 require("lazy").setup({
 
@@ -38,6 +39,18 @@ require("lazy").setup({
   { "nvim-lualine/lualine.nvim" },
   { "xiyaowong/nvim-transparent" },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
+
+-- keymapping directory 
+  {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  config = function()
+    require("FKvim_rc.plugins.fk_keys").setup()
+  end
+},
+
+
 
   -- Bufferline
   {
@@ -129,23 +142,9 @@ require("lazy").setup({
   -- Syntax Highlighting
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 
-  -- Completion Engine
   
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "L3MON4D3/LuaSnip",
-    },
-  },
 
 
-
-  -- LSP Configs
-  { "neovim/nvim-lspconfig" },
 
   -- Winbar Breadcrumbs Plugin
   {
@@ -188,47 +187,61 @@ require("lazy").setup({
     end,
   },
 
-  -- TypeScript Tools (replaces tsserver)
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "neovim/nvim-lspconfig",
-      "SmiteshP/nvim-navic",
-    },
-    config = function()
-      local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+ -- LSP 
+ {
+  "neovim/nvim-lspconfig",
+  config = function()
+    -- LSP Setup
+    local lspconfig = require('lspconfig')
 
-      require("typescript-tools").setup({
-        settings = {
-          separate_diagnostic_server = true,
-          publish_diagnostic_on = "insert_leave",
-          expose_as_code_action = "all",
-          complete_function_calls = true,
-          tsserver_file_preferences = {
-            includeInlayParameterNameHints = "all",
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
-          },
-        },
-        on_attach = function(client, bufnr)
-          local buf_map = vim.api.nvim_buf_set_keymap
-          local opts = { noremap = true, silent = true }
+    -- Python LSP (Pyright)
+    lspconfig.pyright.setup{}
 
-          buf_map(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-          buf_map(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-          buf_map(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-          buf_map(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-          buf_map(bufnr, "n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+    -- TypeScript/JavaScript LSP (tsserver)
+    lspconfig.tsserver.setup{}
 
-          local navic = require("nvim-navic")
-          if client.server_capabilities.documentSymbolProvider then
-            navic.attach(client, bufnr)
-          end
-        end,
-        capabilities = lsp_capabilities,
-      })
-    end,
+    -- Add more servers here as needed
+
+  end,
+},
+
+  -- Auto Completion and LSP 
+{
+  "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp",  -- LSP completion source
+    "hrsh7th/cmp-buffer",    -- Buffer completion source
+    "hrsh7th/cmp-path",      -- Path completion source
+    "L3MON4D3/LuaSnip",      -- Snippet support
+    "saadparwaiz1/cmp_luasnip", -- LuaSnip completion source
   },
+  config = function()
+    local cmp = require('cmp')
+    local luasnip = require('luasnip')
+
+    cmp.setup({
+      snippet = {
+        expand = function(args)
+          luasnip.lsp_expand(args.body) -- Use LuaSnip to expand snippets
+        end,
+      },
+      mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      },
+      sources = {
+        { name = 'nvim_lsp' },  -- LSP source
+        { name = 'buffer' },    -- Buffer source
+        { name = 'path' },      -- Path source
+        { name = 'luasnip' },   -- Snippet source
+      },
+    })
+  end
+},
 
 })
