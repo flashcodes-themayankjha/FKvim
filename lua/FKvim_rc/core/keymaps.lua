@@ -7,8 +7,17 @@ vim.g.mapleader = " "  -- Space as leader key
 map("n", "<leader>w", ":w<CR>", opts)
 map("n", "<leader>q", ":q<CR>", opts)
 map("n", "<leader>x", ":bd<CR>", opts)
--- Keybinding to reload init.lua
-vim.api.nvim_set_keymap('n', '<leader>rr', ':source $MYVIMRC<CR>', { noremap = true, silent = true })
+map("n", "<leader>rr", ":source $MYVIMRC<CR>", opts)  -- Reload init.lua
+
+-- Clipboard: Copy / Paste / Select All
+map("n", "<leader>y", '"+yy', opts)                  -- Copy line to clipboard
+map("n", "<leader>Y", 'ggVG"+y', opts)               -- Select all and copy
+map("n", "<leader>p", '"+p', opts)                   -- Paste from clipboard
+map("v", "<leader>y", '"+y', opts)                   -- Copy visual selection
+map("v", "<leader>p", '"+p', opts)                   -- Paste in visual mode
+map("n", "<leader>a", "ggVG", opts)                  -- Select all
+map("i", "<C-v>", '<C-r>+', opts)                    -- Paste in insert mode
+map("i", "<C-a>", '<Esc>ggVG"+ygi', opts)            -- Select all & copy in insert mode, return to insert
 
 -- Pane navigation
 map("n", "<C-h>", "<C-w>h", opts)
@@ -19,81 +28,70 @@ map("n", "<C-k>", "<C-w>k", opts)
 -- Clear search highlight
 map("n", "<leader>nh", ":nohl<CR>", opts)
 
--- FKvim_rc/keymaps.lua
-vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', { noremap = true, silent = true })
+-- Tabs
+map("n", "<leader>tn", ":tabnew<CR>", opts)
 
 
--- Switch to next buffer
+                     -- toggle between workspaces
+
+-- Terminal mode: Cmd + Left = move to code, Cmd + Right = move to terminal
+vim.keymap.set("t", "<D-Left>", "<C-\\><C-n><C-w>h", { desc = "To Code (Left)" })
+vim.keymap.set("t", "<D-Right>", "<C-\\><C-n><C-w>l", { desc = "To Terminal (Right)" })
+
+-- Normal mode: Cmd + Left = move to nvim-tree or code, Cmd + Right = move to terminal
+vim.keymap.set("n", "<D-Left>", "<cmd>NvimTreeToggle<CR><C-w>h", { desc = "To NvimTree / Code (Left)" })
+vim.keymap.set("n", "<D-Right>", "<cmd>NvimTreeToggle<CR><C-w>l", { desc = "To Terminal (Right)" })
+-- Move to terminal from code space (split navigation)
+vim.keymap.set("n", "<D-Right>", "<C-w>l", { desc = "Move to Terminal" })  -- Move to the right split
+
+-- Move to code space from terminal (split navigation)
+vim.keymap.set("t", "<D-Left>", "<C-\\><C-n><C-w>h", { desc = "Move to Code Space" })  -- Move to the left split (code space)
+
+-- nvim-tree: Optionally you may want to add a keybinding to focus directly on NvimTree
+vim.keymap.set("n", "<D-Left>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
+
+
+
+-- BufferLine navigation
 map('n', '<Leader>bn', ':BufferLineCycleNext<CR>', opts)
-
--- Switch to previous buffer
 map('n', '<Leader>bp', ':BufferLineCyclePrev<CR>', opts)
-
--- Go to a specific buffer by number (e.g., <Leader>1 for buffer 1)
 map('n', '<Leader>1', ':BufferLineGoToBuffer 1<CR>', opts)
 map('n', '<Leader>2', ':BufferLineGoToBuffer 2<CR>', opts)
 map('n', '<Leader>3', ':BufferLineGoToBuffer 3<CR>', opts)
 map('n', '<Leader>4', ':BufferLineGoToBuffer 4<CR>', opts)
-
--- Close the current buffer
 map('n', '<Leader>rc', ':BufferLinePickClose<CR>', opts)
-
--- Pick and close any buffer
+map('n', '<Leader>bo', ':BufferLineCloseRight<CR>', opts)
+map('n', '<Leader>bi', ':BufferLineCloseLeft<CR>', opts)
 map('n', '<Leader>bp', ':BufferLinePick<CR>', opts)
-
--- Pin the current buffer (Keep it fixed)
+map('n', '<Leader>bl', ':BufferLineMovePrev<CR>', opts)
+map('n', '<Leader>bm', ':BufferLineMoveNext<CR>', opts)
 map('n', '<Leader>bp', ':BufferLineTogglePin<CR>', opts)
 
--- Move the current buffer to the next
-map('n', '<Leader>bm', ':BufferLineMoveNext<CR>', opts)
+-- NvimTree
+map('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
+map('n', '<leader>f', ':NvimTreeFindFile<CR>', opts)
+map('n', '<leader>h', '<C-w>h', { desc = "Focus File Explorer" })
+map('n', '<leader>l', '<C-w>l', { desc = "Focus Code Window" })
 
--- Move the current buffer to the previous
-map('n', '<Leader>bl', ':BufferLineMovePrev<CR>', opts)
+-- Telescope
+map('n', '<leader>ff', ':Telescope find_files<CR>', opts)
+map('n', '<leader>fg', ':Telescope live_grep<CR>', opts)
+map('n', '<leader>fb', ':Telescope buffers<CR>', opts)
+map('n', '<leader>fh', ':Telescope help_tags<CR>', opts)
+map('n', '<leader>fc', ':Telescope current_buffer_fuzzy_find<CR>', opts)
 
+-- Terminal toggles
+map("n", "<Space>tt", "<cmd>ToggleTerm<CR>", opts)
+map("n", "<Space>th", "<cmd>ToggleTerm direction=horizontal<CR>", opts)
+map("n", "<Space>tv", "<cmd>ToggleTerm direction=vertical<CR>", opts)
+map("n", "<Space>tf", "<cmd>ToggleTerm direction=float<CR>", opts)
+map("n", "<leader>ta", function()
+-- In terminal mode, Cmd + W will close the terminal window
+map("t", "<D-w>", "<C-\\><C-n>:q<CR>", { desc = "Close Terminal" })
+-- Optional: In normal mode, Cmd + W also closes the current window (e.g., terminal)
+map("n", "<D-w>", ":q<CR>", { desc = "Close Window" })
+-- for  closing 
 
-
--- Reload init.lua configuration
-map('n', '<Leader>rr', ':source $MYVIMRC<CR>', opts)
-
-
-local keymap = vim.keymap.set
-
--- NvimTree Keybindings
-keymap('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })  -- Open/close NvimTree
-keymap('n', '<leader>f', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })  -- Find current file in NvimTree
--- Navigate to nvim-tree
-keymap("n", "<leader>h", "<C-w>h", { desc = "Focus File Explorer" })
-
--- Navigate to main file workspace
-keymap("n", "<leader>l", "<C-w>l", { desc = "Focus Code Window" })
-
-
--- Bufferline Keybindings
-keymap('n', '<leader>bh', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })  -- Move to previous buffer
-keymap('n', '<leader>bl', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })  -- Move to next buffer
-keymap('n', '<leader>bc', ':BufferLinePickClose<CR>', { noremap = true, silent = true })  -- Close current buffer using BufferLine
-keymap('n', '<leader>bo', ':BufferLineCloseRight<CR>', { noremap = true, silent = true })  -- Close buffers to the right
-keymap('n', '<leader>bi', ':BufferLineCloseLeft<CR>', { noremap = true, silent = true })  -- Close buffers to the left
-
-
-
-
-keymap('n', '<leader>ff', ':Telescope find_files<CR>', { noremap = true, silent = true })      -- Find files
-keymap('n', '<leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true })       -- Grep in project
-keymap('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true, silent = true })         -- List buffers
-keymap('n', '<leader>fh', ':Telescope help_tags<CR>', { noremap = true, silent = true })       -- Help
-keymap('n', '<leader>fc', ':Telescope current_buffer_fuzzy_find<CR>', { noremap = true, silent = true }) -- Find in current buffer
-
-
-
--- Set keybindings for terminal splits using Lua API
-keymap("n", "<Space>tt", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true })
-keymap("n", "<Space>th", "<cmd>ToggleTerm direction=horizontal<CR>", { noremap = true, silent = true })
-keymap("n", "<Space>tv", "<cmd>ToggleTerm direction=vertical<CR>", { noremap = true, silent = true })
-keymap("n", "<Space>tf", "<cmd>ToggleTerm direction=float<CR>", { noremap = true, silent = true })
-
-vim.keymap.set("n", "<leader>ta", function()
   require("toggleterm.terminal").Terminal
     :new({ direction = "float", hidden = true }):toggle()
 end, { desc = "Toggle Fancy Terminal" })
-
