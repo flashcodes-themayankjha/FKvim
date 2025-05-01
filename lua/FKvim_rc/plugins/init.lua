@@ -50,6 +50,15 @@ require("lazy").setup({
   end
 },
 
+   --  Emmet 
+
+  {
+    "mattn/emmet-vim",
+     ft = { "html", "css", "javascriptreact", "typescriptreact" },
+      init = function()
+      vim.g.user_emmet_leader_key = "<C-e>" -- or set to your preference
+     end
+    },
 
 
   -- Bufferline
@@ -144,7 +153,15 @@ require("lazy").setup({
 
   
 
-
+  -- plugins.lua or init.lua
+   {
+  "kylechui/nvim-surround",
+  version = "*", -- Stable
+  event = "VeryLazy",
+  config = function()
+    require("nvim-surround").setup()
+  end
+  },
 
   -- Winbar Breadcrumbs Plugin
   {
