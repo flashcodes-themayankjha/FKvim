@@ -63,6 +63,13 @@ function M.setup()
       y = { '"+yy', "Yank Line" },
       p = { '"+p', "Paste" },
     },
+
+    -- Emmet Expansion
+    { "<leader>e", group = "Emmet" },
+    ["<leader>e"] = {
+      name = "+Emmet",
+      e = { "<cmd>EmmetExpandAbbr<CR>", "Expand Emmet Abbreviation" },
+    },
   })
 end
 
