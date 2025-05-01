@@ -18,7 +18,6 @@ map("v", "<leader>p", '"+p', opts)                   -- Paste in visual mode
 map("n", "<leader>a", "ggVG", opts)                  -- Select all
 map("i", "<C-v>", '<C-r>+', opts)                    -- Paste in insert mode
 map("i", "<C-a>", '<Esc>ggVG"+ygi', opts)            -- Select all & copy in insert mode, return to insert
-
 -- Pane navigation
 map("n", "<C-h>", "<C-w>h", opts)
 map("n", "<C-l>", "<C-w>l", opts)
@@ -30,9 +29,6 @@ map("n", "<leader>nh", ":nohl<CR>", opts)
 
 -- Tabs
 map("n", "<leader>tn", ":tabnew<CR>", opts)
-
-
-                     -- toggle between workspaces
 
 -- Terminal mode: Cmd + Left = move to code, Cmd + Right = move to terminal
 vim.keymap.set("t", "<D-Left>", "<C-\\><C-n><C-w>h", { desc = "To Code (Left)" })
@@ -50,8 +46,6 @@ vim.keymap.set("t", "<D-Left>", "<C-\\><C-n><C-w>h", { desc = "Move to Code Spac
 -- nvim-tree: Optionally you may want to add a keybinding to focus directly on NvimTree
 vim.keymap.set("n", "<D-Left>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
 
-
-
 -- BufferLine navigation
 map('n', '<Leader>bn', ':BufferLineCycleNext<CR>', opts)
 map('n', '<Leader>bp', ':BufferLineCyclePrev<CR>', opts)
@@ -66,6 +60,7 @@ map('n', '<Leader>bp', ':BufferLinePick<CR>', opts)
 map('n', '<Leader>bl', ':BufferLineMovePrev<CR>', opts)
 map('n', '<Leader>bm', ':BufferLineMoveNext<CR>', opts)
 map('n', '<Leader>bp', ':BufferLineTogglePin<CR>', opts)
+map('n','<Leader>bd', '<cmd>bd<CR>', opts, { desc = "Delete Buffer" })
 
 -- NvimTree
 map('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
@@ -85,13 +80,18 @@ map("n", "<Space>tt", "<cmd>ToggleTerm<CR>", opts)
 map("n", "<Space>th", "<cmd>ToggleTerm direction=horizontal<CR>", opts)
 map("n", "<Space>tv", "<cmd>ToggleTerm direction=vertical<CR>", opts)
 map("n", "<Space>tf", "<cmd>ToggleTerm direction=float<CR>", opts)
-map("n", "<leader>ta", function()
--- In terminal mode, Cmd + W will close the terminal window
-map("t", "<D-w>", "<C-\\><C-n>:q<CR>", { desc = "Close Terminal" })
--- Optional: In normal mode, Cmd + W also closes the current window (e.g., terminal)
-map("n", "<D-w>", ":q<CR>", { desc = "Close Window" })
--- for  closing 
 
-  require("toggleterm.terminal").Terminal
-    :new({ direction = "float", hidden = true }):toggle()
+-- Close terminal from terminal mode (when focused)
+map("t", "<D-w>", "<C-\\><C-n>:q<CR>", { desc = "Close Terminal" }) -- Cmd + W
+-- Close window from normal mode
+map("n", "<D-w>", ":q<CR>", { desc = "Close Window" }) -- Cmd + W
+-- Close current terminal buffer (from terminal mode)
+map("t", "<leader>tc", "<C-\\><C-n><cmd>q<CR>", { desc = "Close Terminal" }) -- Leader+tc
+-- Close all toggleterm instances
+map("n", "<leader>tc", "<cmd>ToggleTermToggleAll<CR>", { desc = "Toggle All Terminals" })
+
+-- Toggle Fancy Terminal
+map("n", "<leader>ta", function()
+  require("toggleterm.terminal").Terminal:new({ direction = "float", hidden = true }):toggle()
 end, { desc = "Toggle Fancy Terminal" })
+

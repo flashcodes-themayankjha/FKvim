@@ -32,6 +32,8 @@ function M.setup()
       t = { "<cmd>tabnew<CR>", "New Tab" },
       x = { "<cmd>split | terminal<CR>", "Horizontal Terminal" },
       v = { "<cmd>vsplit | terminal<CR>", "Vertical Terminal" },
+      c = { "<cmd>ToggleTermToggleAll<CR>", "Close All Terminals" },
+
     },
 
     -- Reload Config
