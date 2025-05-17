@@ -11,8 +11,8 @@ opt.signcolumn = "yes"       -- always show sign column
 
 -- Tabs & Indentation
 opt.expandtab = true         -- convert tabs to spaces
-opt.shiftwidth = 2           -- spaces per indent
-opt.tabstop = 2              -- spaces per tab
+opt.shiftwidth = 4           -- spaces per indent
+opt.tabstop = 4               -- spaces per tab
 opt.smartindent = true       -- smart autoindent
 
 -- Search

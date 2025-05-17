@@ -50,6 +50,15 @@ require("lazy").setup({
   end
 },
 
+
+--  For  Indent
+{
+  "lukas-reineke/indent-blankline.nvim",
+  main = "ibl",
+  config = function()
+    require("FKvim_rc.plugins.fk_indents").setup()
+  end 
+},
    --  Emmet 
 
   {

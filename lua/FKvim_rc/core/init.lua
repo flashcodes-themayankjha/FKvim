@@ -12,5 +12,5 @@ require("FKvim_rc.core.keymaps")
 require("FKvim_rc.core.autocmd")
 require("FKvim_rc.plugins")  -- this loads plugins/init.lua
 require("FKvim_rc.themes")
-
+require("FKvim_rc.core.fk_cheat")
 

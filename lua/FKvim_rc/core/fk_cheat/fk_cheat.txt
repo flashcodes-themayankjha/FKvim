@@ -1,0 +1,68 @@
+----------------------------------------
+          FKVim Keybindings Cheatsheet
+----------------------------------------
+
+GENERAL KEYBINDINGS:
+
+- Save File:       <Leader>w     :w
+- Quit File:       <Leader>q     :q
+- Close Buffer:    <Leader>x     :bd
+- Reload FKVim:    <Leader>rr    :source $MYVIMRC
+
+CLIPBOARD ACTIONS:
+
+- Copy Line:       <Leader>y     '"+yy
+- Copy All:        <Leader>Y     ggVG"+y
+- Paste:           <Leader>p     '"+p
+- Copy Selection:  <Leader>y     '"+y (visual mode)
+- Paste Selection: <Leader>p     '"+p (visual mode)
+- Select All:      <Leader>a     ggVG
+
+TERMINAL NAVIGATION:
+
+- Focus Left Split:   <C-h>
+- Focus Right Split:  <C-l>
+- Focus Down Split:   <C-j>
+- Focus Up Split:     <C-k>
+
+CLEAR SEARCH HIGHLIGHT:
+
+- Clear Highlight: <Leader>nh    :nohl
+
+TABS:
+
+- New Tab:        <Leader>tn    :tabnew
+- Close Tab:      <Leader>tc    :tabclose
+
+BUFFER LINE NAVIGATION:
+
+- Next Buffer:    <Leader>bn    :BufferLineCycleNext
+- Previous Buffer: <Leader>bp   :BufferLineCyclePrev
+- Close Current Buffer: <Leader>bd :bd
+- Go to Buffer 1: <Leader>1     :BufferLineGoToBuffer 1
+- Go to Buffer 2: <Leader>2     :BufferLineGoToBuffer 2
+- Go to Buffer 3: <Leader>3     :BufferLineGoToBuffer 3
+
+TERMINAL ACTIONS:
+
+- Open Terminal (default): <Space>tt  <cmd>ToggleTerm<CR>
+- Open Terminal (Horizontal): <Space>th <cmd>ToggleTerm direction=horizontal<CR>
+- Open Terminal (Vertical): <Space>tv <cmd>ToggleTerm direction=vertical<CR>
+- Open Terminal (Floating): <Space>tf <cmd>ToggleTerm direction=float<CR>
+- Close All Terminals: <Leader>tc <cmd>ToggleTermToggleAll<CR>
+
+NVIM TREE:
+
+- Toggle NvimTree: <Leader>e     :NvimTreeToggle
+- Focus NvimTree:  <Leader>f     :NvimTreeFindFile
+
+Telescope:
+
+- Find Files:     <Leader>ff    :Telescope find_files
+- Live Grep:      <Leader>fg    :Telescope live_grep
+- Buffers:        <Leader>fb    :Telescope buffers
+- Help Tags:      <Leader>fh    :Telescope help_tags
+- Current Buffer Fuzzy Search: <Leader>fc :Telescope current_buffer_fuzzy_find
+
+----------------------------------------
+

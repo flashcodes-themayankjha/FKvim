@@ -95,3 +95,21 @@ map("n", "<leader>ta", function()
   require("toggleterm.terminal").Terminal:new({ direction = "float", hidden = true }):toggle()
 end, { desc = "Toggle Fancy Terminal" })
 
+
+
+-- Live Reload function in Lua for Neovim
+function LiveReload()
+  -- Run browser-sync command to start the server and watch files for changes
+  vim.api.nvim_command('!browser-sync start --server --files "*.html, *.css, *.js"')
+end
+
+-- Create a key mapping to run the LiveReload function
+map('n', '<leader>lr', ':lua LiveReload()<CR>', { noremap = true, silent = true })
+
+
+
+
+
+
+
+
