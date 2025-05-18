@@ -5,7 +5,7 @@
 ---
 
 # 🌟 FKvim 
-The Fuck Vim (Commanly Known as FKvim) is highly optimizable and customizable neovim based Editor which all the built-in features of modern IDE. FKvim was started as a personal project of Mayank Jha, CEO of Flashcodes.
+The Fuck Vim (Commanly Known as FKvim) is highly optimizable and customizable neovim based Editor which all the built-in features of modern IDE. FKvim was started as a personal project. 
 
 > A fast, modern, and minimal Neovim setup built with [lazy.nvim](https://github.com/folke/lazy.nvim).  
 > Features LSP, autocompletion, fuzzy finding, file tree, git integration, and more!
