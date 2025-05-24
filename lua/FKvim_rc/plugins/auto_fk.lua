@@ -30,4 +30,4 @@ cmp.setup({
     { name = "buffer" },
     { name = "path" },
   }),
-})
+} )
