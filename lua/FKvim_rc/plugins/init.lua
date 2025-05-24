@@ -153,6 +153,8 @@ require("lazy").setup({
 
   -- Git
   { "lewis6991/gitsigns.nvim" },
+ 
+
 
   -- Comments
   { "numToStr/Comment.nvim" },
@@ -195,8 +197,7 @@ require("lazy").setup({
           Interface     = " ",
           Function      = " ",
           Variable      = " ",
-          Constant      = " ",
-          String        = " ",
+          Constant      = " ", String        = " ",
           Number        = " ",
           Boolean       = " ",
           Array         = " ",
@@ -270,4 +271,13 @@ require("lazy").setup({
   end
 },
 
+-- Auto Pair 
+
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("FKvim_rc.plugins.fk_pair").setup()
+  end,
+  },
 })
