@@ -32,10 +32,6 @@ The Fuck Vim (Commanly Known as FKvim) is highly optimizable and customizable ne
 ### 1. Install Neovim (>= 0.9)
 
 - [Neovim Installation Guide](https://github.com/neovim/neovim/wiki/Installing-Neovim)
-<<<<<<< HEAD
-
-=======
->>>>>>> bdf5275 (Updated Readme -   Zsh cmd for secured clonnig)
 ### 2. Clone this repo into your Neovim config folder
 
 ```bash
