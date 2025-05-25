@@ -12,6 +12,22 @@ The Fuck Vim (Commanly Known as FKvim) is highly optimizable and customizable ne
 [The FKvim Project.pdf](https://github.com/flashcodes-themayankjha/FKvim/files/11995661/The.FKvim.Project.pdf)
 ---
 
+## 📸 Screenshots
+*Automcompletion with cmp*
+![Autocompletion](lua/FKvim_rc/assets/auto.png)
+
+*Advance VScode Like Features*
+![Features](lua/FKvim_rc/assets/breadcrumbs.png)
+
+*VS Code like Terminal + File Manager + git Integration *
+![Features](lua/FKvim_rc/assets/terminal%20+%20%20ntree%20+%20git.png)
+
+![Demo](lua/FKvim_rc/assets/Fkvimauto.gif)
+
+*Figure 1: Demo of terminal, file tree, and Git integration*
+
+---
+
 ## ✨ Features
 
 - 🚀 Blazing fast startup using **lazy.nvim**
@@ -65,6 +81,24 @@ The plugins will auto-install on first launch. 🚀
 > If nothing happens, run `:Lazy` and hit "Install".
 
 ---
+### 3.1 Open Neovim (Adding FKvim as Default Vim)(Optional)
+open ~/.zshrc or ~/.bashrc - Your Prefered Shell Script 
+and add 
+
+```bash
+echo "alias fk='nvim'" >> ~/.zshrc
+echo "alias fk_all='nvim .'" >> ~/.zshrc
+echo "alias fk.config='fk_all ~/.config/nvim/lua/FKvim_rc'" >> ~/.zshrc
+source ~/.zshrc
+```
+### ✅ Alias Usage
+
+| Alias         | Expands To                                      | Description                                      |
+|---------------|--------------------------------------------------|--------------------------------------------------|
+| `fk`          | `nvim`                                           | Opens Neovim                                     |
+| `fk_all`      | `nvim .`                                         | Opens Neovim in the current directory            |
+| `nvim_config` | `fk_all ~/.config/nvim/lua/FKvim_rc`             | Opens your Neovim config directory in Neovim     |
+
 
 ## 🔧 Manual Dependencies
 
@@ -97,12 +131,6 @@ sudo pacman -S ripgrep fd
 | [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | Tabs/Buffer management |
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Integrated Terminal |
 | [dashboard-nvim](https://github.com/glepnir/dashboard-nvim) | Start Screen |
-
----
-
-## 📸 Screenshots
-![Autocompletion](lua/FKvim_rc/assets/auto.png)
-
 
 
 ---
