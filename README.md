@@ -158,15 +158,11 @@ This config is free to use under the [MIT License](LICENSE).
 
 ---
 
-# 🚀 Made with ❤️ by [Mayank Kumar Jha]
-
----
-
-  
+### 🚀 Made with ❤️ by [Mayank Kumar Jha]
 ---
 
 
 ## Authors
 
-- [@FlashCodes-Mayankjha](https://github.com/flashcodes-themayankjha)
+- [@FlashCodes-Mayankjha](https://github.com/flashcodes-themayankjha) from Flashcode Teams 
 
