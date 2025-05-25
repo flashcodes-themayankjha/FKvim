@@ -31,7 +31,6 @@ local function safe_require(module)
   return mod
 end
 
-
 -- Plugins
 require("lazy").setup({
 
@@ -40,35 +39,32 @@ require("lazy").setup({
   { "xiyaowong/nvim-transparent" },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
-
--- keymapping directory 
+  -- keymapping directory 
   {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  config = function()
-    require("FKvim_rc.plugins.fk_keys").setup()
-  end
-},
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("FKvim_rc.plugins.fk_keys").setup()
+    end
+  },
 
+  -- Indent
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    config = function()
+      require("FKvim_rc.plugins.fk_indents").setup()
+    end 
+  },
 
---  For  Indent
-{
-  "lukas-reineke/indent-blankline.nvim",
-  main = "ibl",
-  config = function()
-    require("FKvim_rc.plugins.fk_indents").setup()
-  end 
-},
-   --  Emmet 
-
+  -- Emmet 
   {
     "mattn/emmet-vim",
-     ft = { "html", "css", "javascriptreact", "typescriptreact" },
-      init = function()
+    ft = { "html", "css", "javascriptreact", "typescriptreact" },
+    init = function()
       vim.g.user_emmet_leader_key = "<C-e>" -- or set to your preference
-     end
-    },
-
+    end
+  },
 
   -- Bufferline
   {
@@ -153,31 +149,40 @@ require("lazy").setup({
 
   -- Git
   { "lewis6991/gitsigns.nvim" },
- 
-
 
   -- Comments
   { "numToStr/Comment.nvim" },
 
-  -- Syntax Highlighting
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-
-  
-
-  -- plugins.lua or init.lua
-   {
-  "kylechui/nvim-surround",
-  version = "*", -- Stable
-  event = "VeryLazy",
-  config = function()
-    require("nvim-surround").setup()
-  end
+  -- Syntax Highlighting + Treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "html", "javascript", "typescript", "tsx", "css", "lua" 
+        },
+        highlight = { enable = true },
+        indent = { enable = true },
+        autotag = { enable = true }, -- Enable autotag
+      })
+    end
   },
 
-  -- Winbar Breadcrumbs Plugin
+  -- Surround plugin
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Stable
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup()
+    end
+  },
+
+  -- Breadcrumbs (winbar) Plugin: nvim-navic
   {
     "SmiteshP/nvim-navic",
-    event = "LspAttach", -- optional lazy load
+    event = "LspAttach", -- lazy load on LSP attach
     config = function()
       require("nvim-navic").setup({
         highlight = true,
@@ -197,7 +202,8 @@ require("lazy").setup({
           Interface     = " ",
           Function      = " ",
           Variable      = " ",
-          Constant      = " ", String        = " ",
+          Constant      = " ",
+          String        = " ",
           Number        = " ",
           Boolean       = " ",
           Array         = " ",
@@ -214,70 +220,88 @@ require("lazy").setup({
     end,
   },
 
- -- LSP 
- {
-  "neovim/nvim-lspconfig",
-  config = function()
-    -- LSP Setup
-    local lspconfig = require('lspconfig')
+  -- LSP Config with navic on_attach integration
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      local lspconfig = require('lspconfig')
+      local navic = require("nvim-navic")
 
-    -- Python LSP (Pyright)
-    lspconfig.pyright.setup{}
+      local on_attach = function(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, bufnr)
+        end
+      end
 
-    -- TypeScript/JavaScript LSP (tsserver)
-    lspconfig.tsserver.setup{}
+      lspconfig.pyright.setup{
+        on_attach = on_attach,
+      }
 
-    -- Add more servers here as needed
+      lspconfig.tsserver.setup{
+        on_attach = on_attach,
+      }
 
-  end,
-},
-
-  -- Auto Completion and LSP 
-{
-  "hrsh7th/nvim-cmp",
-  dependencies = {
-    "hrsh7th/cmp-nvim-lsp",  -- LSP completion source
-    "hrsh7th/cmp-buffer",    -- Buffer completion source
-    "hrsh7th/cmp-path",      -- Path completion source
-    "L3MON4D3/LuaSnip",      -- Snippet support
-    "saadparwaiz1/cmp_luasnip", -- LuaSnip completion source
+      -- add more servers here with on_attach if needed
+    end,
   },
-  config = function()
-    local cmp = require('cmp')
-    local luasnip = require('luasnip')
 
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body) -- Use LuaSnip to expand snippets
-        end,
-      },
-      mapping = {
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      },
-      sources = {
-        { name = 'nvim_lsp' },  -- LSP source
-        { name = 'buffer' },    -- Buffer source
-        { name = 'path' },      -- Path source
-        { name = 'luasnip' },   -- Snippet source
-      },
-    })
-  end
-},
+  -- Autocompletion setup (nvim-cmp + LuaSnip)
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+    },
+    config = function()
+      local cmp = require('cmp')
+      local luasnip = require('luasnip')
 
--- Auto Pair 
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = {
+          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.close(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        },
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'buffer' },
+          { name = 'path' },
+          { name = 'luasnip' },
+        },
+      })
+    end
+  },
 
+  -- Auto pairs
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = function()
       require("FKvim_rc.plugins.fk_pair").setup()
-  end,
+    end,
   },
+
+  -- Treesitter autotag plugin
+  {
+    "windwp/nvim-ts-autotag",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = "InsertEnter",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
+
 })
+
