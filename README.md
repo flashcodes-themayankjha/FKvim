@@ -14,7 +14,7 @@ The Fuck Vim (Commanly Known as FKvim) is highly optimizable and customizable ne
 *Advance VScode Like Features*
 ![Features](lua/FKvim_rc/assets/breadcrumbs.png)
 
-*VS Code like Terminal + File Manager + git Integration *
+*VS Code like Terminal + File Manager + git Integration*
 ![Features](lua/FKvim_rc/assets/terminal%20+%20%20ntree%20+%20git.png)
 
 ![Demo](lua/FKvim_rc/assets/Fkvimauto.gif)
