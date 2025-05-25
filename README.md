@@ -101,12 +101,9 @@ sudo pacman -S ripgrep fd
 ---
 
 ## 📸 Screenshots
+![Autocompletion](lua/FKvim_rc/assets/auto.png)
 
-| Dashboard | File Explorer + Telescope | Code View |
-|:---|:---|:---|
-| ![dashboard](https://raw.githubusercontent.com/catppuccin/nvim/main/assets/dashboard.png) | ![telescope](https://raw.githubusercontent.com/nvim-telescope/telescope.nvim/master/assets/telescope.png) | ![code](https://raw.githubusercontent.com/catppuccin/nvim/main/assets/code.png) |
 
-> (Replace with your own screenshots later for a personal touch!)
 
 ---
 
